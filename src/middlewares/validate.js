@@ -1,0 +1,14 @@
+
+const httpError = require('../utils/httpErrors.js');
+
+const validate = (validationSchema) => (req, res, next) => {
+    const validationResult = validationSchema.validate(req.body);
+
+    if(validationResult.error){
+       return next(httpError(400, validationResult.error.details[0].message));
+    }
+
+    next();
+};
+
+module.exports = validate;

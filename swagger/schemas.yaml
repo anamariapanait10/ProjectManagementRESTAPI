@@ -1,0 +1,131 @@
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    createProjectDTO:
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        ownerId:
+          type: string
+    project:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        ownerId:
+          type: string
+      required:
+        - id
+        - name
+        - ownerId
+    createTaskDTO:
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        projectId:
+          type: string
+        assigneeId:
+          type: string
+        dueDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+            - toto
+            - inprogress
+            - done
+            - closed
+    task:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        projectId:
+          type: string
+        assigneeId:
+          type: string
+        dueDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+            - toto
+            - inprogress
+            - done
+            - closed
+      required:
+        - id
+        - title
+        - projectId
+    createCommentDTO:
+      properties:
+        content:
+          type: string
+        taskId:
+          type: string
+        userId:
+          type: string
+        date:
+          type: string
+          format: date-time
+    comment:
+      type: object
+      properties:
+        id:
+          type: string
+        content:
+          type: string
+        taskId:
+          type: string
+        userId:
+          type: string
+        date:
+          type: string
+          format: date-time
+      required:
+        - id
+        - content
+        - taskId
+        - userId
+    loginUserDTO:
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - id
+        - email
+        - password
+security:
+  - BearerAuth: []

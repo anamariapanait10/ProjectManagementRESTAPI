@@ -1,0 +1,44 @@
+{
+  "name": "projectmanagementrestapi",
+  "version": "1.0.0",
+  "description": "A Node.js RESTful API for A Project Management App",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/anamariapanait10/ProjectManagementRESTAPI.git"
+  },
+  "keywords": [
+    "node",
+    "restful",
+    "api"
+  ],
+  "author": "Ana-Maria Panait",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anamariapanait10/ProjectManagementRESTAPI/issues"
+  },
+  "homepage": "https://github.com/anamariapanait10/ProjectManagementRESTAPI#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "joi": "^17.12.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.5.0",
+    "mongoose": "^8.2.4",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "swagger-jsdoc": "^6.0.0",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}
