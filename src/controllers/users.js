@@ -4,7 +4,8 @@ const tasksService = require('../services/tasks');
 exports.users_get_all = async (req, res, next) => {
     try {
         const result = await usersService.getUsers();
-    
+        console.log(result);
+        console.log(typeof result);
         res.status(200).json({
             count: result.length,
             users: result.map(user => {
@@ -28,7 +29,12 @@ exports.users_get_all = async (req, res, next) => {
 
 exports.users_signup = async (req, res, next) => {
     try {
-        const result = await usersService.signup(req.body);
+        if (req.file) {
+            const photoBase64 = req.file.buffer.toString('base64');
+            req.body.photo = photoBase64;
+        }
+        const body = Object.assign({}, req.body);
+        const result = await usersService.signup(body);
 
         if (result.exists) {
             return res.status(409).json({
@@ -43,7 +49,7 @@ exports.users_signup = async (req, res, next) => {
                     firstName: createdUser.firstName,
                     lastName: createdUser.lastName,
                     email: createdUser.email,
-                    password: createdUser.password,
+                    photo: createdUser.photo,
                     request: {
                         type: 'GET',
                         url: 'http://localhost:3000/users/' + createdUser._id
@@ -98,8 +104,9 @@ exports.users_update_user = async (req, res, next) => {
     try {
         const id = req.params.userId;
         const updateOps = {};
-        for (const ops of req.body) {
-            updateOps[ops.propName] = ops.value;
+
+        for (const ops in req.body) {
+            updateOps[ops] = req.body[ops];
         }
         await usersService.updateUser(id, updateOps);
         res.status(200).json({

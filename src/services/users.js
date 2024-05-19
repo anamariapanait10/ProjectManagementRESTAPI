@@ -4,13 +4,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const getUsers = async () => {
-    User
+    const users = await User
         .find()
         .select('firstName lastName email photo _id')
-        .exec()
-        .then(users => {
-            return users;
-        });
+        .exec();
+
+    return users;
 };
 
 const signup = async (userInfo) => {
@@ -27,10 +26,6 @@ const signup = async (userInfo) => {
             password: hash,
             photo: userInfo.photo
         });
-        var error = user.joiValidate(userInfo);
-        if (error) {
-            throw error;
-        }
         const result = await user.save();
         return { exists: false, result: result };
     }
@@ -42,6 +37,7 @@ const login = async (userInfo) => {
         return { auth: false };
     }
     const match = await bcrypt.compare(userInfo.password, user[0].password);
+    console.log(match);
     if (match) {
         const token = jwt.sign(
             {
@@ -65,10 +61,6 @@ const getUserById = async (id) => {
 };
 
 const updateUser = async (id, updateOps) => {
-    var error = User.findById(id).joiValidate(updateOps);
-    if (error) {
-        throw error;
-    }
     const result = await User.updateOne({ _id: id }, { $set: updateOps }).exec();
     return result;
 };

@@ -6,7 +6,7 @@ const createTaskSchema = Joi.object({
     title: Joi.string().min(3).max(30).required(),
     description: Joi.string().max(500),
     status: Joi.string().valid('todo', 'inprogress', 'done', 'closed').required(),
-    dueDate: Joi.date()
+    deadline: Joi.date()
 });
 
 const updateTaskSchema = Joi.object({
@@ -15,7 +15,7 @@ const updateTaskSchema = Joi.object({
     title: Joi.string().min(3).max(30),
     description: Joi.string().max(500),
     status: Joi.string().valid('todo', 'inprogress', 'done', 'closed'),
-    dueDate: Joi.date()
+    deadline: Joi.date()
 }).min(1);
 
 module.exports = { createTaskSchema, updateTaskSchema };

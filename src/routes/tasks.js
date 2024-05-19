@@ -31,11 +31,6 @@ const TasksController = require('../controllers/tasks.js');
  *           format: date-time
  *         description: The before due date of the task
  *       - in: query
- *         name: projectId
- *         schema:
- *           type: string
- *         description: The project UUID to filter tasks
- *       - in: query
  *         name: page
  *         schema:
  *           type: integer
@@ -166,7 +161,7 @@ router.patch('/:taskId', checkAuth, validate(tasksValidations.updateTaskSchema),
  *     tags: [Task]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: taskId
  *         schema:
  *           type: string
  *         required: true

@@ -10,30 +10,18 @@ Features:
 - Public and private routes.
 - Optional advanced features: filtering, sorting, pagination, transactions, custom middleware, advanced authentication (role-based access control), image upload, and cloud deployment.
 
-Core Features:
-
-- User Authentication and Authorization: Secure signup and login processes, with support for JWT for secure token-based user authentication. Implement role-based access control to differentiate between regular users and administrators, ensuring that users can only access and modify their tasks and projects.
-
-- Task Management: Enable users to create, read, update, and delete (CRUD) tasks. Tasks can include details such as title, description, due date, priority level (e.g., high, medium, low), and status (e.g., pending, in progress, completed).
-
-- Project Organization: Allow users to group tasks into projects. Each project can have its own set of tasks, making it easier to organize and manage related activities. Implement features to add, update, delete, and list all projects.
-
-- Collaboration: Facilitate collaboration by allowing users to assign tasks to other registered users. Include functionality for commenting on tasks to enable communication between team members within the platform.
-
-- Advanced Filtering and Search: Provide advanced filtering options, allowing users to view tasks by status, priority, due date, or assigned user. Include a search feature for users to quickly find specific tasks or projects by keywords.
-
 ## Technologies Used:
 
 - Backend Framework: Node.js with Express.js for handling API requests and middleware.
 - Authentication: JWT for secure authentication and authorization.
-- Database: MongoDB for flexible and scalable data storage.
-- Testing: Mocha and Chai for unit and integration testing to ensure code quality and reliability.
-- Documentation: Swagger or Postman for creating a comprehensive and interactive API documentation.
+- Database: MongoDB Atlas for flexible and scalable data storage.
+- Testing: Jest for unit testing to ensure code quality and reliability.
+- Documentation: Swagger for creating a comprehensive and interactive API documentation.
 
 ## Setup intructions:
 1. Clone the Repository: git clone <repository_url>
 2. Install Dependencies: npm install
-3. Set Environment Variables: Create a .env file with necessary environment variables (e.g., database connection details, JWT secret).
+3. Set Environment Variables (e.g. database connection details, JWT secret)
 5. Start the Server: npm start
 
 ## ENV variables
@@ -52,9 +40,10 @@ Replace in the `nodemon.json` file with the following ENV variables:
 ![DatabaseDiagram](https://github.com/anamariapanait10/ProjectManagementRESTAPI/blob/main/db_diagram.png)
 
 ## Aplication flows
-The user registers into the application, then he can see all the projects on the platform and all the tasks assigned to him. He can also leave comments on tasks and see all his comments.
+The user registers into the application, then he can see all the projects, tasks and comments on the platform. He can see the tasks for a specific project or the comments for a specific task. He can also leave comments on tasks.
 
 ## API Documentation
+I used Swagger for creating a comprehensive and interactive API documentation. You can access the documentation by running the server and going to `http://localhost:3000/api-docs`.
 
 ## Flow Chart Diagram
 ![FlowChartDiagram](https://github.com/anamariapanait10/ProjectManagementRESTAPI/blob/main/FlowChartDiagram.png)
@@ -62,3 +51,8 @@ The user registers into the application, then he can see all the projects on the
 ## Tests
 
 There are 6 unit tests made usisng `Jest` for testing the project's endpoints functionality. To run the tests use the `npm test` command.
+
+## Middleware
+- Request Validation: Middleware for validating request payloads and parameters.
+- Error Handling: Middleware for handling errors globally.
+- Authentication: Middleware for verifying JWT tokens and protecting private routes.

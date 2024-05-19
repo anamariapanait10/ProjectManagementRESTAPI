@@ -106,20 +106,8 @@ exports.projects_get_tasks = async (req, res, next) => {
         const tasks = await tasksService.getTasks({projectId: projectId});
         
         res.status(200).json({
-            count: tasks.length,
-            tasks: tasks.map(task => ({
-                id: task._id,
-                projectId: task.projectId,
-                userId: task.userId,
-                title: task.title,
-                description: task.description,
-                status: task.status,
-                deadline: task.deadline,
-                request: {
-                    type: 'GET',
-                    url: 'http://localhost:3000/tasks/' + task._id
-                }
-            }))
+            count: tasks.count,
+            tasks: tasks.tasks
         });
     } catch (err) {
         next(err);

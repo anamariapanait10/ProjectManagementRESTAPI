@@ -6,28 +6,7 @@ const validate = require('../middlewares/validate.js');
 const usersValidations = require('../validations/users.js');
 const UsersController = require('../controllers/users');
 
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename: function(req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
-};
-const upload = multer({ 
-    storage: storage, 
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    },
-    fileFilter: fileFilter
-});
+const upload = multer({ storage: multer.memoryStorage() });
 
 /**
  * @swagger
@@ -60,7 +39,19 @@ router.get('/', checkAuth, UsersController.users_get_all);
  *       content:
  *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/createUserDTO'
+ *             type: object
+ *             properties:
+ *               photo:
+ *                 type: string
+ *                 format: binary
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
  *     responses:
  *        201:
  *          description: Created user
@@ -144,7 +135,7 @@ router.get('/:userId', checkAuth, UsersController.users_get_user);
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/createUserDTO'
  *     responses:

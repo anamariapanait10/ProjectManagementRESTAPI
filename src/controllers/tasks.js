@@ -105,7 +105,7 @@ exports.tasks_delete_task = async (req, res, next) => {
 exports.tasks_get_comments = async (req, res, next) => {
     try {
         const taskId = req.params.taskId;
-        const comments = await commentsService.getComments(taskId);
+        const comments = await commentsService.getComments({taskId: taskId});
         
         res.status(200).json({
             count: comments.length,

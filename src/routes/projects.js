@@ -121,7 +121,7 @@ router.patch('/:projectId', checkAuth, validate(projectsValidations.updateProjec
  *     tags: [Project]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: projectId
  *         schema:
  *           type: string
  *         required: true

@@ -2,14 +2,12 @@ const Project = require('../models/project');
 const mongoose = require('mongoose');
 
 const getProjects = async () => {
-    Project
+    const projects = await Project
         .find()
         .select('name ownerId description _id')
         .populate('ownerId', 'firstName lastName')
-        .exec()
-        .then(projects => {
-            return projects;
-        });
+        .exec();
+    return projects;
 };
 
 const createProject = async (projectInfo) => {
@@ -19,21 +17,21 @@ const createProject = async (projectInfo) => {
         ownerId: projectInfo.ownerId,
         description: projectInfo.description
     }); 
-    project
-        .save()
-        .then(result => {
-           return result;
-        }); 
+    let proj = await project.save();
+    proj = await Project
+        .findById(proj._id)
+        .select('name ownerId description _id')
+        .populate('ownerId', 'firstName lastName')
+        .exec();
+    return proj;    
 };
 
 const getProject = async (projectId) => {
-    Project
+    const project = await Project
         .findById(projectId)
         .select('name ownerId description _id')
-        .exec()
-        .then(project => {
-            return project;
-        });
+        .exec();
+    return project;    
 };
 
 const updateProject = async (projectId, projectInfo) => {
@@ -41,20 +39,15 @@ const updateProject = async (projectId, projectInfo) => {
     Object.entries(projectInfo).forEach(
         ([key, value]) => updateOps[key] = value
     );
-    Project
+    const project = await Project
         .updateOne({_id: projectId}, { $set: updateOps })
-        .exec()
-        .then(result => {
-            return result;
-        });
+        .exec();
+        
+    return project;    
 };
 
 const deleteProject = async (projectId) => {
-    Project.deleteOne({_id: projectId})
-    .exec()
-    .then(result => {
-       return result;
-    });
+    return await Project.deleteOne({_id: projectId}).exec();
 };
 
 module.exports = {createProject, getProjects, getProject, updateProject, deleteProject};

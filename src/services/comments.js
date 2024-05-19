@@ -2,11 +2,14 @@ const mongoose = require('mongoose');
 const Comment = require('../models/comment');
 
 const getComments = async (params) => {
+    console.log(params);
     const { taskId } = params;
     const query = {};
+    console.log(taskId);
     if (taskId) {
         query.taskId = taskId;
     }
+    console.log(query);
 
     const comments = await Comment.find(query).select('taskId userId content _id').exec();
     return comments;
@@ -20,11 +23,6 @@ const createComment = async (commentData) => {
         content: commentData.content
     });
 
-    var error = comment.joiValidate(commentData);
-    if (error) {
-        throw error;
-    }
-
     const result = await comment.save();
     return result;
 };
@@ -35,11 +33,6 @@ const getCommentById = async (id) => {
 };
 
 const updateComment = async (id, updateOps) => {
-    var error = Comment.findById(id).joiValidate(updateOps);
-    if (error) {
-        throw error;
-    }
-
     const result = await Comment.updateOne({ _id: id }, { $set: updateOps }).exec();
     return result;
 };

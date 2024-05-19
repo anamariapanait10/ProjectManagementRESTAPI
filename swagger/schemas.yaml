@@ -35,15 +35,15 @@ components:
           type: string
         projectId:
           type: string
-        assigneeId:
+        userId:
           type: string
-        dueDate:
+        deadline:
           type: string
           format: date-time
         status:
           type: string
           enum:
-            - toto
+            - todo
             - inprogress
             - done
             - closed
@@ -82,9 +82,10 @@ components:
           type: string
         userId:
           type: string
-        date:
+    editCommentDTO:
+      properties:
+        content:
           type: string
-          format: date-time
     comment:
       type: object
       properties:
@@ -125,6 +126,23 @@ components:
           type: string
       required:
         - id
+        - email
+        - password
+    createUserDTO:
+      type: object
+      properties:
+        photo:
+          type: string
+          format: binary
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      required:
         - email
         - password
 security:

@@ -57,6 +57,13 @@ router.post('/', checkAuth, validate(commentsValidations.createCommentSchema), C
  *   get:
  *     description: Get comments by id
  *     tags: [Comment]
+ *     parameters:
+ *       - in: path
+ *         name: commentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The UUID of the comment to delete
  *     responses:
  *       200:
  *         description: Get comments by id
@@ -77,6 +84,19 @@ router.get('/:commentId', checkAuth, CommentsController.comments_get_comment);
  *   patch:
  *     description: Update comments by id
  *     tags: [Comment]
+ *     parameters:
+ *       - in: path
+ *         name: commentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The UUID of the comment to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/editCommentDTO'
  *     responses:
  *       200:
  *         description: Update comments by id
@@ -97,6 +117,13 @@ router.patch('/:commentId', checkAuth, validate(commentsValidations.updateCommen
  *   delete:
  *     description: Delete comments by id
  *     tags: [Comment]
+ *     parameters:
+ *       - in: path
+ *         name: commentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The UUID of the comment to delete
  *     responses:
  *       200:
  *         description: Delete comments by id

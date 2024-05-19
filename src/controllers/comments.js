@@ -2,7 +2,7 @@ const commentsService = require('../services/comments');
 
 exports.comments_get_all = async (req, res, next) => {
     try {
-        const result = await commentsService.getComments();
+        const result = await commentsService.getComments({});
         const response = {
             count: result.length,
             comments: result.map(comm => {
@@ -68,11 +68,7 @@ exports.comments_get_comment = async (req, res, next) => {
 exports.comments_update_comment = async (req, res, next) => {
     try {
         const id = req.params.commentId;
-        const updateOps = {};
-        for (const ops of req.body) {
-            updateOps[ops.propName] = ops.value;
-        }
-        await commentsService.updateComment(id, updateOps);
+        await commentsService.updateComment(id, req.body);
         res.status(200).json({
             message: 'Comment updated',
             request: {

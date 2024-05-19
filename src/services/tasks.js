@@ -2,21 +2,16 @@ const Task = require('../models/task');
 const mongoose = require('mongoose');
 
 const getTasks = async (params) => {
-    const { page, limit, beforeDueDate, afterDueDate, status, projectId } = params;
+    const { page, limit, beforeDueDate, afterDueDate, status } = params;
     const query = {};
     if (status) {
         query.status = status;
     }
     if (beforeDueDate && afterDueDate) {
-        query.dueDate = { $gt: new Date(afterDueDate), $lt: new Date(beforeDueDate) };
-    }
-    if (projectId) {
-        query.projectId = projectId;
+        query.deadline = { $gt: new Date(afterDueDate), $lt: new Date(beforeDueDate) };
     }
 
-    var tasks = {};
-
-    Task
+    var tasks = await Task
     .find(query)
     .select('projectId userId title description status deadline _id')
     .skip((page - 1) * limit)
@@ -26,7 +21,7 @@ const getTasks = async (params) => {
     const count = await Task.countDocuments().exec();
 
     return {
-        count,
+        count: count,
         tasks: tasks.map(task => ({
             id: task._id,
             projectId: task.projectId,
@@ -51,22 +46,13 @@ const createTask = async (taskInfo) => {
         title: taskInfo.title,
         description: taskInfo.description,
         status: taskInfo.status,
-        dueDate: taskInfo.dueDate
+        deadline: taskInfo.deadline
     });
-    task
-        .save()
-        .then(result => {
-            return result;
-        });
+    return await task.save();
 };
 
 const getTask = async (taskId) => {
-    Task.findById(taskId)
-        .select('projectId userId title description status deadline _id')
-        .exec()
-        .then(result => {
-            return result;
-        });
+    return Task.findById(taskId).select('projectId userId title description status deadline _id').exec();
 };
 
 const updateTask = async (taskId, taskInfo) => {
@@ -74,20 +60,11 @@ const updateTask = async (taskId, taskInfo) => {
     Object.entries(taskInfo).forEach(
         ([key, value]) => updateOps[key] = value
     );
-    Task
-        .update({ _id: taskId }, { $set: updateOps })
-        .exec()
-        .then(result => {
-            return result;
-        });
+    return await Task.updateOne({ _id: taskId }, { $set: updateOps }).exec();
 };
 
 const deleteTask = async (taskId) => {
-    Task.deleteOne({ _id: taskId })
-    .exec()
-    .then(result => {
-        return result;
-    });
+    return await Task.deleteOne({ _id: taskId }).exec();
 };
 
 const getTasksByUserId = async (userId) => {
