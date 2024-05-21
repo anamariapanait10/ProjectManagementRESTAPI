@@ -4,8 +4,6 @@ const tasksService = require('../services/tasks');
 exports.users_get_all = async (req, res, next) => {
     try {
         const result = await usersService.getUsers();
-        console.log(result);
-        console.log(typeof result);
         res.status(200).json({
             count: result.length,
             users: result.map(user => {

@@ -14,7 +14,7 @@ projectSchema.methods.joiValidate = function(obj){
         ownerId: Joi.string().required(),
         description: Joi.string().max(500)
     });
-    console.log("schema " + schema);
+
     return schema.validate(obj);
 }
 

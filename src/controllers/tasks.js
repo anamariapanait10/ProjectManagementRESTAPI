@@ -13,10 +13,10 @@ exports.tasks_get_all = async (req, res, next) => {
             status: status
         };
         const result = await tasksService.getTasks(paginationOptions);
-    
+
         res.status(200).json({
-            count: result.length,
-            totalPages: Math.ceil(result.count / paginationOptions.limit),
+            // count: result.length,
+            totalPages: Math.ceil(result.length/ paginationOptions.limit),
             currentPage: paginationOptions.page,
             tasks: result.tasks
         });

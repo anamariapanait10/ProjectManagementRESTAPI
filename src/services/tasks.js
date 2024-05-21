@@ -2,7 +2,7 @@ const Task = require('../models/task');
 const mongoose = require('mongoose');
 
 const getTasks = async (params) => {
-    const { page, limit, beforeDueDate, afterDueDate, status } = params;
+    const { page, limit, beforeDueDate, afterDueDate, status, projectId } = params;
     const query = {};
     if (status) {
         query.status = status;
@@ -10,17 +10,26 @@ const getTasks = async (params) => {
     if (beforeDueDate && afterDueDate) {
         query.deadline = { $gt: new Date(afterDueDate), $lt: new Date(beforeDueDate) };
     }
+    if (projectId) {
+        query.projectId = projectId;
+    }
 
     var tasks = await Task
     .find(query)
     .select('projectId userId title description status deadline _id')
     .skip((page - 1) * limit)
+    .sort({ deadline: 1 })
     .limit(limit)
     .exec();
 
-    const count = await Task.countDocuments().exec();
+    const count = tasks.length;
+    const length = await await Task
+        .find(query)
+        .select('projectId userId title description status deadline _id')
+        .exec();
 
     return {
+        length: length.length,
         count: count,
         tasks: tasks.map(task => ({
             id: task._id,

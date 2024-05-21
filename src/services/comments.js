@@ -2,14 +2,11 @@ const mongoose = require('mongoose');
 const Comment = require('../models/comment');
 
 const getComments = async (params) => {
-    console.log(params);
     const { taskId } = params;
     const query = {};
-    console.log(taskId);
     if (taskId) {
         query.taskId = taskId;
     }
-    console.log(query);
 
     const comments = await Comment.find(query).select('taskId userId content _id').exec();
     return comments;
